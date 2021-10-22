@@ -1,6 +1,8 @@
-from unittest import TestCase
 import unittest
+from unittest import TestCase
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 
 
 class NewUserTest(TestCase):
@@ -18,8 +20,40 @@ class NewUserTest(TestCase):
         """
         Test for when a user creates a new todo list
         """
+
+        # Check title
         self.browser.get('http://localhost:8000')
         self.assertIn('To-Do', self.browser.title)
+
+        # check header text - h1
+        header = self.browser.find_element(By.TAG_NAME, 'h1')
+        self.assertEqual(header.text, 'To-Do List')
+
+        # check inputbox for new to-do
+        inputbox = self.browser.find_element(By.ID, 'todo-item')
+        self.assertEqual(inputbox.get_attribute(
+            'placeholder'), 'Enter a to-do item')
+
+        # add 2 new item to to-do list
+        inputbox.send_keys("Go to gym")
+        input.send_keys(Keys.ENTER)
+
+        inputbox.send_keys("Prepare breakfast")
+        inputbox.send_keys(Keys.ENTER)
+
+        # check for recently added items
+        table = self.browser.find_element(By.ID, 'to-do-items-table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(
+            "1: Go to gym",
+            [row.text for row in rows]
+        )
+        self.assertIn(
+            "2: Prepare breakfast",
+            [row.text for row in rows]
+        )
+
+        self.fail('Finish the test')
 
 
 if __name__ == '__main__':
