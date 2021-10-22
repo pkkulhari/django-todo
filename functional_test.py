@@ -36,7 +36,7 @@ class NewUserTest(TestCase):
 
         # add 2 new item to to-do list
         inputbox.send_keys("Go to gym")
-        input.send_keys(Keys.ENTER)
+        inputbox.send_keys(Keys.ENTER)
 
         inputbox.send_keys("Prepare breakfast")
         inputbox.send_keys(Keys.ENTER)
