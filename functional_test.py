@@ -59,8 +59,6 @@ class NewUserTest(TestCase):
             [row.text for row in rows]
         )
 
-        self.fail('Finish the test')
-
 
 if __name__ == '__main__':
     unittest.main()
