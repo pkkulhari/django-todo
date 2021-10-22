@@ -48,7 +48,7 @@ class NewUserTest(TestCase):
         time.sleep(0.01)
 
         # check for recently added items
-        table = self.browser.find_element(By.ID, 'to-do-items-table')
+        table = self.browser.find_element(By.ID, 'todo-items-table')
         rows = table.find_elements(By.TAG_NAME, 'tr')
         self.assertIn(
             "1: Go to gym",
