@@ -1,4 +1,5 @@
 import unittest
+import time
 from unittest import TestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -38,12 +39,17 @@ class NewUserTest(TestCase):
         inputbox.send_keys("Go to gym")
         inputbox.send_keys(Keys.ENTER)
 
+        time.sleep(0.01)
+
+        inputbox = self.browser.find_element(By.ID, 'todo-item')
         inputbox.send_keys("Prepare breakfast")
         inputbox.send_keys(Keys.ENTER)
 
+        time.sleep(0.01)
+
         # check for recently added items
         table = self.browser.find_element(By.ID, 'to-do-items-table')
-        rows = table.find_elements_by_tag_name('tr')
+        rows = table.find_elements(By.TAG_NAME, 'tr')
         self.assertIn(
             "1: Go to gym",
             [row.text for row in rows]
