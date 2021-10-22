@@ -17,6 +17,14 @@ class NewUserTest(TestCase):
     def tearDown(self):
         self.browser.quit()
 
+    def check_row_in_table(self, rowItem):
+        table = self.browser.find_element(By.ID, 'todo-items-table')
+        rows = table.find_elements(By.TAG_NAME, 'tr')
+        self.assertIn(
+            rowItem,
+            [row.text for row in rows]
+        )
+
     def test_starting_a_new_todo_list(self):
         """
         Test for when a user creates a new todo list
@@ -39,25 +47,16 @@ class NewUserTest(TestCase):
         inputbox.send_keys("Go to gym")
         inputbox.send_keys(Keys.ENTER)
 
-        time.sleep(0.01)
+        time.sleep(0.002)
+        self.check_row_in_table('1: Go to gym')
 
         inputbox = self.browser.find_element(By.ID, 'todo-item')
         inputbox.send_keys("Prepare breakfast")
         inputbox.send_keys(Keys.ENTER)
 
-        time.sleep(0.01)
-
-        # check for recently added items
-        table = self.browser.find_element(By.ID, 'todo-items-table')
-        rows = table.find_elements(By.TAG_NAME, 'tr')
-        self.assertIn(
-            "1: Go to gym",
-            [row.text for row in rows]
-        )
-        self.assertIn(
-            "2: Prepare breakfast",
-            [row.text for row in rows]
-        )
+        time.sleep(0.002)
+        self.check_row_in_table('1: Go to gym')
+        self.check_row_in_table('2: Prepare breakfast')
 
 
 if __name__ == '__main__':
