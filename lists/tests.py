@@ -9,7 +9,10 @@ class TestHomePage(TestCase):
     Tests for Home Page
     """
 
-    def test_it_is_home_page(self):
+    def test_home_page_is_loading_right_template(self):
+        """
+        Test, it is loading right page
+        """
         request = HttpRequest()
         response = home_page(request)
 
