@@ -1,25 +1,31 @@
 import unittest
-import time
 from unittest import TestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class NewUserTest(TestCase):
     """
-    Test for a new user actions 
+    Test for a new user actions
     """
 
     def setUp(self):
         self.browser = webdriver.Firefox()
+        self.browser.implicitly_wait(10)
 
     def tearDown(self):
         self.browser.quit()
 
     def check_row_in_table(self, rowItem):
-        table = self.browser.find_element(By.ID, 'todo-items-table')
-        rows = table.find_elements(By.TAG_NAME, 'tr')
+        WebDriverWait(self.browser, 5).until(
+            EC.visibility_of_all_elements_located((By.CSS_SELECTOR, '#todo-items-table tr')))
+
+        rows = self.browser.find_elements(
+            By.CSS_SELECTOR, '#todo-items-table tr')
+
         self.assertIn(
             rowItem,
             [row.text for row in rows]
@@ -47,16 +53,14 @@ class NewUserTest(TestCase):
         inputbox.send_keys("Go to gym")
         inputbox.send_keys(Keys.ENTER)
 
-        time.sleep(0.002)
-        self.check_row_in_table('1: Go to gym')
+        self.check_row_in_table('1. Go to gym')
 
         inputbox = self.browser.find_element(By.ID, 'todo-item')
         inputbox.send_keys("Prepare breakfast")
         inputbox.send_keys(Keys.ENTER)
 
-        time.sleep(0.002)
-        self.check_row_in_table('1: Go to gym')
-        self.check_row_in_table('2: Prepare breakfast')
+        self.check_row_in_table('1. Go to gym')
+        self.check_row_in_table('2. Prepare breakfast')
 
 
 if __name__ == '__main__':
