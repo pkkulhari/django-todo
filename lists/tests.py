@@ -29,6 +29,11 @@ class TestHomePage(TestCase):
         request.POST['todo-item'] = 'A new item'
         response = home_page(request)
 
+        # Test for redirection
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['Location'], '/')
+
+        # check the item in database
         item = Item.objects.first()
         self.assertEqual(item.body, 'A new item')
 
