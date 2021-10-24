@@ -31,7 +31,7 @@ class TestHomePage(TestCase):
 
         # Test for redirection
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['Location'], '/lists/only-one-list')
+        self.assertEqual(response['Location'], '/')
 
         # check the item in database
         item = Item.objects.first()
@@ -68,26 +68,3 @@ class ItemModelTest(TestCase):
         self.assertEqual('Second Item', fetched_items[1][0])
         self.assertEqual(first_item.list, _list)
         self.assertEqual(second_item.list, _list)
-
-
-class ListViewTest(TestCase):
-    """
-    Tests for the ListView
-    """
-
-    def test_items_in_todo_list(self):
-        """
-        Ensure that the items are displayed in todo list
-        """
-
-        _list = TodoList.objects.create()
-
-        # create 2 new items in database
-        Item.objects.create(body='Test item 1', list=_list)
-        Item.objects.create(body='Test item 2', list=_list)
-
-        # check if the item are display or not
-        response = self.client.get('/lists/only-one-list')
-
-        self.assertContains(response, 'Test item 1')
-        self.assertContains(response, 'Test item 2')
