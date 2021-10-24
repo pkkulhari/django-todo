@@ -21,6 +21,16 @@ class TestHomePage(TestCase):
         self.assertIn(b'<title>To-Do Lists</title>', response.content)
         self.assertTrue(response.content.strip().endswith(b'</html>'))
 
+    def test_home_page_persist_todos(self):
+        "Test that To-Dos are persisted after form submission"
+
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['todo-item'] = 'A new item'
+
+        response = home_page(request)
+
+        self.assertIn('A new item', response.content.decode())
 
 
 class ItemModelTest(TestCase):
