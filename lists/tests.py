@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.http import HttpRequest, request, response
+from django.http import HttpRequest
 
 from lists.views import home_page
 from lists.models import Item
@@ -27,10 +27,10 @@ class TestHomePage(TestCase):
         request = HttpRequest()
         request.method = 'POST'
         request.POST['todo-item'] = 'A new item'
-
         response = home_page(request)
 
-        self.assertIn('A new item', response.content.decode())
+        item = Item.objects.first()
+        self.assertEqual(item.body, 'A new item')
 
 
 class ItemModelTest(TestCase):
