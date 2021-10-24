@@ -1,13 +1,13 @@
 import unittest
-from unittest import TestCase
 from selenium import webdriver
+from django.test import LiveServerTestCase
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-class NewUserTest(TestCase):
+class NewUserTest(LiveServerTestCase):
     """
     Test for a new user actions
     """
@@ -37,7 +37,7 @@ class NewUserTest(TestCase):
         """
 
         # Check title
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         self.assertIn('To-Do', self.browser.title)
 
         # check header text - h1
