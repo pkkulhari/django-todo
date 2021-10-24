@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.http import HttpRequest
 
 from lists.views import home_page
-from lists.models import Item
+from lists.models import Item, TodoList
 
 
 class TestHomePage(TestCase):
@@ -49,16 +49,22 @@ class ItemModelTest(TestCase):
         1. Insert two items into database
         2. Fetch both items from database
         """
+        _list = TodoList()
+        _list.save()
 
-        fist_item = Item()
-        fist_item.body = 'First Item'
-        fist_item.save()
+        first_item = Item()
+        first_item.body = 'First Item'
+        first_item.list = _list
+        first_item.save()
 
         second_item = Item()
         second_item.body = 'Second Item'
+        second_item.list = _list
         second_item.save()
 
         fetched_items = Item.objects.values_list('body')
 
         self.assertEqual('First Item', fetched_items[0][0])
         self.assertEqual('Second Item', fetched_items[1][0])
+        self.assertEqual(first_item.list, _list)
+        self.assertEqual(second_item.list, _list)
