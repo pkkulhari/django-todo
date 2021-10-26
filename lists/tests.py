@@ -70,6 +70,30 @@ class ItemModelTest(TestCase):
         self.assertEqual(second_item.list, _list)
 
 
+class NewListViewTest(TestCase):
+    """
+    Tests for create a new todo list
+    """
+
+    def test_save_data_into_database(self):
+        """
+        Test that new list data save in database
+        """
+
+        self.client.post('/lists/new/', {'todo-item': 'A new todo item'})
+        newly_added_item = Item.objects.all()[0]
+        self.assertEqual(newly_added_item.body, 'A new todo item')
+
+    def test_post_request_redirection(self):
+        """
+        Test the redirection of post request for create a new todo item
+        """
+
+        response = self.client.post(
+            '/lists/new/', {'todo-item': 'A new todo item'})
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/lists/only-one-list/')
+
 class ListViewTest(TestCase):
     """
     Tests for the ListView
