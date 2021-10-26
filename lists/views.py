@@ -20,4 +20,4 @@ def list_view(request):
     todoItems = Item.objects.all()
 
     context = {'todoItems': todoItems}
-    return render(request, 'home.html', context)
+    return render(request, 'list.html', context)
