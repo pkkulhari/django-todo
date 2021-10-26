@@ -15,7 +15,15 @@ def home_page(request):
     context = {'todoItems': todoItems}
     return render(request, 'home.html', context)
 
+
 def new_list(request):
     todoItem = request.POST['todo-item']
     _list = TodoList.objects.create()
     Item.objects.create(body=todoItem, list=_list)
+
+
+def list_view(request):
+    todoItems = Item.objects.all()
+
+    context = {'todoItems': todoItems}
+    return render(request, 'home.html', context)
