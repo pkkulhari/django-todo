@@ -9,13 +9,5 @@
       {% csrf_token %}
       <input type="text" name="todo-item" placeholder="Enter a to-do item" id="todo-item" />
     </form>
-
-    <table id="todo-items-table">
-      {% for item in todoItems %}
-      <tr>
-        <td>{{ forloop.counter }}. {{ item }}</td>
-      </tr>
-      {% endfor %}
-    </table>
   </body>
 </html>
