@@ -35,8 +35,10 @@ class NewUserTest(LiveServerTestCase):
         Test for when a user creates a new todo list
         """
 
-        # Check title
+        # get url
         self.browser.get(self.live_server_url)
+
+        # Check title
         self.assertIn('To-Do', self.browser.title)
 
         # check header text - h1
