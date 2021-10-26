@@ -43,7 +43,7 @@ class NewUserTest(LiveServerTestCase):
 
         # check header text - h1
         header = self.browser.find_element(By.TAG_NAME, 'h1')
-        self.assertEqual(header.text, 'To-Do List')
+        self.assertEqual(header.text, 'Start New To-Do List')
 
         # check inputbox for new to-do
         inputbox = self.browser.find_element(By.ID, 'todo-item')
