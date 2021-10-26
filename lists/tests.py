@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.http import HttpRequest
 
-from lists.views import home_page
+from lists.views import home_page, new_list
 from lists.models import Item, TodoList
 
 
@@ -27,7 +27,7 @@ class TestHomePage(TestCase):
         request = HttpRequest()
         request.method = 'POST'
         request.POST['todo-item'] = 'A new item'
-        response = home_page(request)
+        response = new_list(request)
 
         # Test for redirection
         self.assertEqual(response.status_code, 302)
