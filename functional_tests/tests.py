@@ -56,6 +56,7 @@ class NewUserTest(LiveServerTestCase):
 
         self.check_row_in_table('1. Go to gym')
 
+        self.browser.get(self.live_server_url)
         inputbox = self.browser.find_element(By.ID, 'todo-item')
         inputbox.send_keys("Prepare breakfast")
         inputbox.send_keys(Keys.ENTER)
