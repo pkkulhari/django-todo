@@ -31,7 +31,7 @@ class TestHomePage(TestCase):
 
         # Test for redirection
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['Location'], '/lists/only-one-list')
+        self.assertEqual(response['Location'], '/lists/only-one-list/')
 
         # check the item in database
         item = Item.objects.first()
@@ -94,6 +94,7 @@ class NewListViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/lists/only-one-list/')
 
+
 class ListViewTest(TestCase):
     """
     Tests for the ListView
@@ -111,7 +112,7 @@ class ListViewTest(TestCase):
         Item.objects.create(body='Test item 2', list=_list)
 
         # check if the item are display or not
-        response = self.client.get('/lists/only-one-list')
+        response = self.client.get('/lists/only-one-list/')
 
         self.assertContains(response, 'Test item 1')
         self.assertContains(response, 'Test item 2')

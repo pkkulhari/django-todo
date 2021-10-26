@@ -65,7 +65,7 @@ class NewUserTest(LiveServerTestCase):
 
         # Get th first user's browser's url and test it for correct url
         first_user_browser_url = self.browser.current_url
-        self.assertRegex(first_user_browser_url, '/lists/only-one-list')
+        self.assertRegex(first_user_browser_url, '/lists/only-one-list/')
 
         self.browser.quit()
 
