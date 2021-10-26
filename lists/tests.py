@@ -100,6 +100,13 @@ class ListViewTest(TestCase):
     Tests for the ListView
     """
 
+    def test_lists_page_uses_list_template(self):
+        """
+        Test that lists page uses list.html template
+        """
+        response = self.client.get('/lists/only-one-list/')
+        self.assertTemplateUsed(response, 'list.html')
+
     def test_items_in_todo_list(self):
         """
         Ensure that the items are displayed in todo list
