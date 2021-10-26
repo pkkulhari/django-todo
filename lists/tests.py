@@ -31,7 +31,7 @@ class TestHomePage(TestCase):
 
         # Test for redirection
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['Location'], '/')
+        self.assertEqual(response['Location'], '/lists/only-one-list')
 
         # check the item in database
         item = Item.objects.first()
