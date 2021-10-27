@@ -13,7 +13,7 @@ def new_list(request):
     todoItem = request.POST['todo-item']
     _list = TodoList.objects.create()
     Item.objects.create(body=todoItem, list=_list)
-    return redirect('lists:lists')
+    return redirect('lists:lists', pk=_list.id)
 
 
 def list_view(request):

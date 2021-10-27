@@ -31,7 +31,8 @@ class TestHomePage(TestCase):
 
         # Test for redirection
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['Location'], '/lists/only-one-list/')
+        _list = TodoList.objects.first()
+        self.assertEqual(response['Location'], f'/lists/{_list.id}/')
 
         # check the item in database
         item = Item.objects.first()
@@ -132,7 +133,8 @@ class ListViewTest(TestCase):
         """
         Test that lists page uses list.html template
         """
-        response = self.client.get('/lists/only-one-list/')
+        _list = TodoList.objects.create()
+        response = self.client.get(f'/lists/{_list.id}/')
         self.assertTemplateUsed(response, 'list.html')
 
     def test_items_in_todo_list(self):
@@ -147,7 +149,16 @@ class ListViewTest(TestCase):
         Item.objects.create(body='Test item 2', list=_list)
 
         # check if the item are display or not
-        response = self.client.get('/lists/only-one-list/')
+        response = self.client.get(f'/lists/{_list.id}/')
 
         self.assertContains(response, 'Test item 1')
         self.assertContains(response, 'Test item 2')
+
+    def test_list_page_check_list_in_context(self):
+        """
+        Test that list page has a object of list in it's context
+        """
+        todoList = TodoList.objects.create()
+        response = self.client.get(f'/lists/{todoList.id}/')
+
+        self.assertEqual(response.context['list'], todoList)
