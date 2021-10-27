@@ -93,6 +93,10 @@ class NewListViewTest(TestCase):
         response = self.client.post(
             '/lists/new/', {'todo-item': 'A new todo item'})
         self.assertEqual(response.status_code, 302)
+        _list = TodoList.objects.first()
+        self.assertRedirects(response, f'/lists/{_list.id}/')
+
+
 class AddItemToExistingListTest(TestCase):
     """
     Tests for adding a new item to existing list
@@ -142,17 +146,21 @@ class ListViewTest(TestCase):
         Ensure that the items are displayed in todo list
         """
 
+        # create a list and add 2 new items in list
         _list = TodoList.objects.create()
-
-        # create 2 new items in database
         Item.objects.create(body='Test item 1', list=_list)
         Item.objects.create(body='Test item 2', list=_list)
+
+        # create seocnd list and add a item in it
+        _list2 = TodoList.objects.create()
+        Item.objects.create(body='Test item 3', list=_list2)
 
         # check if the item are display or not
         response = self.client.get(f'/lists/{_list.id}/')
 
         self.assertContains(response, 'Test item 1')
         self.assertContains(response, 'Test item 2')
+        self.assertNotContains(response, 'Test item 3')
 
     def test_list_page_check_list_in_context(self):
         """
