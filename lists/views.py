@@ -16,10 +16,11 @@ def new_list(request):
     return redirect('lists:lists', pk=_list.id)
 
 
-def list_view(request):
-    todoItems = Item.objects.all()
+def list_view(request, pk):
+    todoList = TodoList.objects.get(id=pk)
+    todoItems = Item.objects.filter(list=pk)
 
-    context = {'todoItems': todoItems}
+    context = {'todoItems': todoItems, 'list': todoList}
     return render(request, 'list.html', context)
 
 
