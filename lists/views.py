@@ -21,3 +21,10 @@ def list_view(request):
 
     context = {'todoItems': todoItems}
     return render(request, 'list.html', context)
+
+
+def add_item(request, pk):
+    _list = TodoList.objects.get(id=pk)
+    todoItem = request.POST['todo-item']
+    Item.objects.create(body=todoItem, list=_list)
+    return redirect('lists:lists', pk=_list.id)

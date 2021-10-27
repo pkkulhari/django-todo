@@ -92,7 +92,35 @@ class NewListViewTest(TestCase):
         response = self.client.post(
             '/lists/new/', {'todo-item': 'A new todo item'})
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, '/lists/only-one-list/')
+class AddItemToExistingListTest(TestCase):
+    """
+    Tests for adding a new item to existing list
+    """
+
+    def test_add_item_to_existig_list(self):
+        """
+        Tests for adding a item to existing list
+        """
+        _list = TodoList.objects.create()
+        self.client.post(
+            f'/lists/{_list.id}/add/',
+            {'todo-item': 'A one more item'}
+        )
+        newly_added_item = Item.objects.first()
+
+        self.assertEqual(newly_added_item.list, _list)
+        self.assertEqual(newly_added_item.body, 'A one more item')
+
+    def test_post_request_redirect(self):
+        """
+        Test that post request redirecting user to right list page
+        """
+        _list = TodoList.objects.create()
+        response = self.client.post(
+            f'/lists/{_list.id}/add/', {'todo-item': 'A one more item'})
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, f'/lists/{_list.id}/')
 
 
 class ListViewTest(TestCase):
